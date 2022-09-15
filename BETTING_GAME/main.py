@@ -15,19 +15,18 @@ t_money = "0.00"
 def loading():
     location = os.getcwd()+"\\BETTING_GAME\\file.bin"
 
-    if os.path.exists(location):
-        try:
-            with open(location,"rb") as file:
-                return pickle.load(file)
-        except FileNotFoundError:
-            newf = ["never saved", "player", [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0],
-                [[], [], [], [], [], []], 0, 0, 0, 0.0, 0.0]
-            return newf
-        except Exception as er:
-            print(er)
+    try:
+        with open(location,"rb") as file:
+            return pickle.load(file)
+    except FileNotFoundError:
+        newf = ["never saved", "player", [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0],
+            [[], [], [], [], [], []], 0, 0, 0, 0.0, 0.0]
+        return newf
+    except Exception as er:
+        print(er)
 
 def saving(data):
-    location = os.getcwd()+"\\GAME\\file.bin"
+    location = os.getcwd()+"\\BETTING_GAME\\file.bin"
     rawtime = time.localtime()
     data[0] = time.strftime("%d/%m/%Y, %H:%M:%S", rawtime)
     # [savetime,name,plays,wins,losses,winnings,wagers,histories,t_plays,t_wins,t_losses,t_winnings,t_wager]
@@ -35,12 +34,6 @@ def saving(data):
     try:
         with open(location, 'wb') as file:
             pickle.dump(data, file)
-    except Exception as er:
-        print(er)
-    
-    try:
-        with open(location, 'rb') as file:
-            print(pickle.load(file))
     except Exception as er:
         print(er)
 
@@ -111,19 +104,19 @@ def gamesA():
     frame2.grid(row=0,column=1,padx=5,pady=5,sticky="ns")
     frame3.grid(row=1,columnspan=2,padx=5,pady=5,sticky="we")
 
-    Button(frame1, font=("",12),text=games[0],command=cashpot).pack(fill=X,padx=3,pady=3)
+    Button(frame1, font=("",12),text=GAMES[0],command=cashpot).pack(fill=X,padx=3,pady=3)
     Label(frame1,fg="yellow",bg=COLOR,font=("",12),text="How to play:")
     Separator(frame1,orient="horizontal", takefocus=True).pack(fill=X)
     Label(frame1,fg="yellow",bg=COLOR,font=("",12),
         text="Pick a number between 1 and 36.\nYou win if your selected number is\nrandomly generated.\nThe minimum wager is $10.00.\nPay-out is 26 times the wager.").pack()
     
-    Button(frame2, font=("",12),text=games[1],command=hotpick,state=DISABLED).pack(fill=X,padx=3,pady=3)
+    Button(frame2, font=("",12),text=GAMES[1],command=hotpick).pack(fill=X,padx=3,pady=3)
     Label(frame2,fg="yellow",bg=COLOR,font=("",12),text="How to play:")
     Separator(frame2,orient="horizontal", takefocus=True).pack(fill=X)
     Label(frame2,fg="yellow",bg=COLOR,font=("",12),
         text="Pick a number between 1 and 16.\nYou win if your selected number is\nrandomly generated.\nThe only wager applicable is $20.00.\nPay-out is fixed at $1,000.00.").pack()
 
-    Button(frame3, font=("",12),text=games[2],command=pickthree,state=DISABLED).pack(fill=X,padx=3,pady=3)
+    Button(frame3, font=("",12),text=GAMES[2],command=pickthree).pack(fill=X,padx=3,pady=3)
     Label(frame3,fg="yellow",bg=COLOR,font=("",12),text="How to play:")
     Separator(frame3,orient="horizontal", takefocus=True).pack(fill=X)
     Label(frame3,fg="yellow",bg=COLOR,font=("",12),
@@ -149,19 +142,19 @@ def gamesB():
     frame2.grid(row=0,column=1,padx=5,pady=5,sticky="ns")
     frame3.grid(row=1,columnspan=2,padx=5,pady=5,sticky="we")
 
-    Button(frame1, font=("",12),text=games[3],command=onedrop,state=DISABLED).pack(fill=X,padx=3,pady=3)
+    Button(frame1, font=("",12),text=GAMES[3],command=onedrop).pack(fill=X,padx=3,pady=3)
     Label(frame1,fg="yellow",bg=COLOR,font=("",12),text="How to play:")
     Separator(frame1,orient="horizontal", takefocus=True).pack(fill=X)
     Label(frame1,fg="yellow",bg=COLOR,font=("",12),
         text="Pick a number between 1 and 36.\nYou win if your selected number is\nrandomly generated.\nThe minimum wager is $10.00.\nPay-out is 27 times the wager.").pack()
     
-    Button(frame2, font=("",12),text=games[4],command=fourplay,state=DISABLED).pack(fill=X,padx=3,pady=3)
+    Button(frame2, font=("",12),text=GAMES[4],command=fourplay).pack(fill=X,padx=3,pady=3)
     Label(frame2,fg="yellow",bg=COLOR,font=("",12),text="How to play:")
     Separator(frame2,orient="horizontal", takefocus=True).pack(fill=X)
     Label(frame2,fg="yellow",bg=COLOR,font=("",12),
         text="Pick 4 numbers between 1 and 15.\nYou win if your selected numbers are\nrandomly generated.\nThe minimum wager is $10.00.\nPay-out is 60 times the wager.").pack()
 
-    Button(frame3, font=("",12),text=games[5],command=ldlotto,state=DISABLED).pack(fill=X,padx=3,pady=3)
+    Button(frame3, font=("",12),text=GAMES[5],command=ldlotto).pack(fill=X,padx=3,pady=3)
     Label(frame3,fg="yellow",bg=COLOR,font=("",12),text="How to play:")
     Separator(frame3,orient="horizontal", takefocus=True).pack(fill=X)
     Label(frame3,fg="yellow",bg=COLOR,font=("",12),
@@ -170,9 +163,6 @@ def gamesB():
     Button(root, font=("",12),text="Back",command=lambda: comselect()).pack(side=BOTTOM, pady=10)
 
 def cashpot():
-    data = loading()
-    wager = 0
-    player = 0
     min_wager = 10
     max_num = 36
     x = 0
@@ -182,12 +172,12 @@ def cashpot():
         widget.destroy()
     
     Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
-    Label(root, bg=COLOR, fg="yellow", font=("",24),text=games[x]).pack()
+    Label(root, bg=COLOR, fg="yellow", font=("",24),text=GAMES[x]).pack()
     Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
     frame=Frame(root,bg=COLOR)
     frame.pack()
 
-    Label(frame,fg="white",bg=COLOR,font=("",12),text="Select your prefered wager $").grid(row=0,columnspan=2)
+    Label(frame,fg="white",bg=COLOR,font=("",12),text="Select your prefered wager $").grid(row=0,columnspan=2,sticky="e")
     entry1 = Entry(frame, font=("",12),width=10)
     entry1.grid(row=0,column=2,padx=5)
     entry1.insert(0, str(min_wager))
@@ -205,23 +195,11 @@ def cashpot():
     Separator(frame, orient="horizontal", takefocus=True).grid(sticky="we",row=4,columnspan=3,pady=5)
     bframe = Frame(root, bg=COLOR)
     bframe.pack()
-    play = Button(bframe,font=("",12),text="Play", command=lambda: playnum(x,max_num,entry1,entry2,min_wager,wager,player,error1,error2))
+    play = Button(bframe,font=("",12),text="Play", command=lambda: playnums(x,max_num,play,entry1,min_wager,error1,error2,entry2))
     play.grid(row=0,column=0,padx=5,pady=5)
     Button(bframe,font=("",12),text="Back",command=lambda: comselect()).grid(row=0,column=1,padx=5,pady=5)
 
-    # [savetime,name,plays,wins,losses,winnings,wagers,histories,t_plays,t_wins,t_losses,t_winnings,t_wager]
-    data[2][x]+=1 # cashpot plays +1
-    data[8]+=1    # total plays +1
-
-    wager = float(entry1.get())
-
-    data[6][x] += wager # cashpot total wager
-    data[12] += wager   # total wager
-
 def hotpick():
-    data = loading()
-    wager = 0
-    player = 0
     min_wager = 20
     max_num = 16
     x = 1
@@ -231,15 +209,16 @@ def hotpick():
         widget.destroy()
     
     Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
-    Label(root, bg=COLOR, fg="yellow", font=("",24),text=games[x]).pack()
+    Label(root, bg=COLOR, fg="yellow", font=("",24),text=GAMES[x]).pack()
     Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
     frame=Frame(root,bg=COLOR)
     frame.pack()
 
-    Label(frame,fg="white",bg=COLOR,font=("",12),text="The wager is fixed at $").grid(row=0,columnspan=2)
-    entry1 = Entry(frame, font=("",12),width=10,state=DISABLED)
+    Label(frame,fg="white",bg=COLOR,font=("",12),text="The wager is fixed at $").grid(row=0,columnspan=2,sticky="e")
+    entry1 = Entry(frame, font=("",12),width=10,bg=COLOR)
     entry1.grid(row=0,column=2,padx=5)
     entry1.insert(0, str(min_wager))
+    entry1.config(state="readonly",readonlybackground=COLOR)
     error1 = Label(frame,fg="white",bg=COLOR,font=("",1))
     error1.grid(row=1,columnspan=3)
 
@@ -249,30 +228,62 @@ def hotpick():
     entry2.focus()
     error2 = Label(frame,fg="white",bg=COLOR,font=("",1))
     error2.grid(row=3,columnspan=3)
-    entry1.bind('<Return>', lambda event: entry2.focus())
 
     Separator(frame, orient="horizontal", takefocus=True).grid(sticky="we",row=4,columnspan=3,pady=5)
     bframe = Frame(root, bg=COLOR)
     bframe.pack()
-    play = Button(bframe,font=("",12),text="Play", command=lambda: playnum(x,max_num,entry1,entry2,min_wager,wager,player,error1,error2))
+    play = Button(bframe,font=("",12),text="Play", command=lambda: playnums(x,max_num,play,entry1,min_wager,error1,error2,entry2))
     play.grid(row=0,column=0,padx=5,pady=5)
     Button(bframe,font=("",12),text="Back",command=lambda: comselect()).grid(row=0,column=1,padx=5,pady=5)
 
-    # [savetime,name,plays,wins,losses,winnings,wagers,histories,t_plays,t_wins,t_losses,t_winnings,t_wager]
-    data[2][x]+=1 # hotpick plays +1
-    data[8]+=1    # total plays +1
-
-    wager = float(entry1.get())
-
-    data[6][x] += wager # hotpick total wager
-    data[12] += wager   # total wager
-
 def pickthree():
-    data = loading()
-    wager = 0
-    player = 0
     min_wager = 40
     max_num = 16
+    x = 2
+    
+    root.geometry("600x460")
+    for widget in root.winfo_children():
+        widget.destroy()
+    
+    Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
+    Label(root, bg=COLOR, fg="yellow", font=("",24),text=GAMES[x]).pack()
+    Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
+    frame=Frame(root,bg=COLOR)
+    frame.pack()
+
+    Label(frame,fg="white",bg=COLOR,font=("",12),text="Select your prefered wager $").grid(row=0,column=0,sticky="e")
+    entry1 = Entry(frame, font=("",12),width=10)
+    entry1.grid(row=0,column=1,columnspan=3,padx=5,sticky="we")
+    entry1.insert(0, str(min_wager))
+    entry1.focus()
+    error1 = Label(frame,fg="white",bg=COLOR,font=("",1))
+    error1.grid(row=1,columnspan=4)
+
+    Label(frame,fg="white",bg=COLOR,font=("",12),text=f"Choose the lucky numbers (1-{max_num}) ").grid(row=2,column=0)
+    entry2a = Entry(frame, font=("",12),width=3)
+    entry2a.grid(row=2,column=1,padx=3)
+    entry2b = Entry(frame, font=("",12),width=3)
+    entry2b.grid(row=2,column=2,padx=1)
+    entry2c = Entry(frame, font=("",12),width=3)
+    entry2c.grid(row=2,column=3,padx=3)
+
+    error2 = Label(frame,fg="white",bg=COLOR,font=("",1))
+    error2.grid(row=3,columnspan=4)
+
+    entry1.bind('<Return>', lambda event: entry2a.focus())
+    entry2a.bind('<Return>', lambda event: entry2b.focus())
+    entry2b.bind('<Return>', lambda event: entry2c.focus())
+
+    Separator(frame, orient="horizontal", takefocus=True).grid(sticky="we",row=4,columnspan=4,pady=5)
+    bframe = Frame(root, bg=COLOR)
+    bframe.pack()
+    play = Button(bframe,font=("",12),text="Play", command=lambda: playnums(x,max_num,play,entry1,min_wager,error1,error2,entry2a,entry2b,entry2c))
+    play.grid(row=0,column=0,padx=5,pady=5)
+    Button(bframe,font=("",12),text="Back",command=lambda: comselect()).grid(row=0,column=1,padx=5,pady=5)
+
+def onedrop():
+    min_wager = 10
+    max_num = 36
     x = 3
     
     root.geometry("600x460")
@@ -280,12 +291,12 @@ def pickthree():
         widget.destroy()
     
     Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
-    Label(root, bg=COLOR, fg="yellow", font=("",24),text=games[x]).pack()
+    Label(root, bg=COLOR, fg="yellow", font=("",24),text=GAMES[x]).pack()
     Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
     frame=Frame(root,bg=COLOR)
     frame.pack()
 
-    Label(frame,fg="white",bg=COLOR,font=("",12),text="Select your prefered wager $").grid(row=0,columnspan=2)
+    Label(frame,fg="white",bg=COLOR,font=("",12),text="Select your prefered wager $").grid(row=0,columnspan=2,sticky="e")
     entry1 = Entry(frame, font=("",12),width=10)
     entry1.grid(row=0,column=2,padx=5)
     entry1.insert(0, str(min_wager))
@@ -303,463 +314,110 @@ def pickthree():
     Separator(frame, orient="horizontal", takefocus=True).grid(sticky="we",row=4,columnspan=3,pady=5)
     bframe = Frame(root, bg=COLOR)
     bframe.pack()
-    play = Button(bframe,font=("",12),text="Play", command=lambda: playnum(x,max_num,entry1,entry2,min_wager,wager,player,error1,error2))
+    play = Button(bframe,font=("",12),text="Play", command=lambda: playnums(x,max_num,play,entry1,min_wager,error1,error2,entry2))
     play.grid(row=0,column=0,padx=5,pady=5)
     Button(bframe,font=("",12),text="Back",command=lambda: comselect()).grid(row=0,column=1,padx=5,pady=5)
 
-    # [savetime,name,plays,wins,losses,winnings,wagers,histories,t_plays,t_wins,t_losses,t_winnings,t_wager]
-    data[2][x]+=1 # hotpick plays +1
-    data[8]+=1    # total plays +1
-
-    wager = float(entry1.get())
-
-    data[6][x] += wager # hotpick total wager
-    data[12] += wager   # total wager
-    if True:
-        A3_plays +=1
-        t_plays +=1
-        wager = 0
-        play1 = 0
-        play2 = 0
-        play3 = 0
-        player = 0
-
-        try:
-            while wager < 40:
-                wager = float(input("Please select your wager (minimum $40.00): "))
-        except:
-            pass
-        A3_wager += wager
-        t_wager += wager
-
-        try:
-            while play1 > 35 or play1 < 1:
-                play1 = int(input("Choose your first lucky number (1-35): "))
-        except:
-            pass
-        try:
-            while play2 > 35 or play2 < 1:
-                play2 = int(input("Choose your second lucky number (1-35): "))
-        except:
-            pass
-        try:
-            while play3 > 35 or play3 < 1:
-                play3 = int(input("Choose your third lucky number (1-35): "))
-        except:
-            pass
-
-        player = [play1,play2,play3]
-        player.sort()
-
-        com1 = random.randint(1,35)
-        com2 = random.randint(1,35)
-        com3 = random.randint(1,35)
-
-        computer = [com1,com2,com3]
-        computer.sort()
-
-        A3history = ["You selected "+str(player)+", computer played "+str(computer)]
-        
-        if player == computer:
-            if wager == 40:
-                winnings = 3000
-
-            elif wager > 60:
-                winnings = wager * 10
-
-            else:
-                winnings = 4000
-
-            A3_winmoney += winnings
-            t_winmoney += winnings
-            money = "{:,.2f}".format(winnings)
-            t_money = "{:,.2f}".format(t_winmoney)
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("YOU WON!!! You earned $"+str(money))
-            if money != t_money:
-                print("Your total pay-out is $"+str(t_money))
-            A3_wins +=1
-            t_wins +=1
-            if (t_wager/t_winmoney) > 0.02:
-                T_H_A_W()
-        else:
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("You will be luckier next time!")
-            A3_losses +=1
-            t_losses +=1
-
-        A3_history.append(A3history)
-        A3_history.append("You waged $"+str(wager))
-
-    if TheHouseAlwaysWins:
-        pass
-    else:
-        while restart not in options:
-            try:
-                print("Would you like to play again?")
-                restart = input("Yes or No: ").lower()
-            except:
-                pass
-
-        if restart == "no":
-            print("But you are so close to winning the *Jackpot* :(")
-
-            while confirm not in options:
-                try:
-                    confirm = input("Are you sure?(Yes or No): ").lower()
-                except:
-                    pass
-
-                if confirm == "yes":
-                    main()
-                else: 
-                    print("Lets get back to winning!")
-                    time.sleep(0.5)
-                    print("")
-                    print("=======================")
-                    print("")
-                    restart = "yes"
-                    pickthree_r()
-        else:
-            print("")
-            print("=======================")
-            print("")
-            pickthree_r()
-
-def onedrop():
-    choice = ""
-    restart = ""
-    confirm = ""
-
-    while choice not in options:
-        try:
-            print("Would you like to play?")
-            choice = input("Yes or No: ").lower()
-        except:
-            pass
-    
-    if choice == "no":
-        gamesA()
-    else:
-        B1_plays += 1
-        t_plays += 1
-        wager = 0
-        player = 0
-    
-        while wager < 10:
-            try:
-                wager = float(input("Please select your wager (minimum $10.00): "))
-            except:
-                pass
-        
-        B1_wager += wager
-        t_wager += wager
-        
-        while player > 36 or player < 1:
-            try:
-                player = int(input("Choose your lucky number (1-36): "))
-            except:
-                pass
-
-        computer = random.randint(1,36)
-
-        B1history = ["You selected "+str(player)+", computer played "+str(computer)]
-        
-        if player == computer:
-            winnings = wager * 27
-            B1_winmoney += winnings
-            t_winmoney += winnings
-            money = "{:,.2f}".format(winnings)
-            t_money = "{:,.2f}".format(t_winmoney)
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("YOU WON!!! You earned $"+str(money))
-            if money != t_money:
-                print("Your total pay-out is $"+str(t_money))
-            B1_wins +=1
-            t_wins +=1
-            if (t_wager/t_winmoney) > 0.02:
-                T_H_A_W()
-        else:
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("You will be luckier next time!")
-            B1_losses +=1
-            t_losses +=1
-    
-        B1_history.append(B1history)
-        B1_history.append("You waged $"+str(wager))
-
-    if TheHouseAlwaysWins:
-        pass
-    else:
-        while restart not in options:
-            try:
-                print("Would you like to play again?")
-                restart = input("Yes or No: ").lower()
-            except:
-                pass
-
-        if restart == "no":
-            print("But you are so close to winning the *Jackpot* :(")
-
-            while confirm not in options:
-                try:
-                    confirm = input("Are you sure?(Yes or No): ").lower()
-                except:
-                    pass
-
-                if confirm == "yes":
-                    main()
-                else: 
-                    print("Lets get back to winning!")
-                    time.sleep(0.5)
-                    print("")
-                    print("=======================")
-                    print("")
-                    restart = "yes"
-                    onedrop_r()
-        else:
-            print("")
-            print("=======================")
-            print("")
-            onedrop_r()
-
 def fourplay():
-    choice = ""
-    restart = ""
-    confirm = ""
-
-    while choice not in options:
-        try:
-            print("Would you like to play?")
-            choice = input("Yes or No: ").lower()
-        except:
-            pass
+    min_wager = 10
+    max_num = 15
+    x = 4
     
-    if choice == "no":
-        gamesA()
-    else:
-        B2_plays +=1
-        t_plays +=1
-        wager = 0
-        play1 = 0
-        play2 = 0
-        play3 = 0
-        play4 = 0
+    root.geometry("600x460")
+    for widget in root.winfo_children():
+        widget.destroy()
+    
+    Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
+    Label(root, bg=COLOR, fg="yellow", font=("",24),text=GAMES[x]).pack()
+    Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
+    frame=Frame(root,bg=COLOR)
+    frame.pack()
 
-        try:
-            while wager < 10:
-                wager = float(input("Please select your wager (minimum $10.00): "))
-        except:
-            pass
-        B2_wager += wager
-        t_wager += wager
+    Label(frame,fg="white",bg=COLOR,font=("",12),text="Select your prefered wager $").grid(row=0,column=0,sticky="e")
+    entry1 = Entry(frame, font=("",12),width=10)
+    entry1.grid(row=0,column=1,columnspan=4,padx=5,sticky="we")
+    entry1.insert(0, str(min_wager))
+    entry1.focus()
+    error1 = Label(frame,fg="white",bg=COLOR,font=("",1))
+    error1.grid(row=1,columnspan=5)
 
-        try:
-            while play1 > 15 or play1 < 1:
-                play1 = int(input("Choose your first lucky number (1-15): "))
-            while play2 > 15 or play2 < 1:
-                play2 = int(input("Choose your second lucky number (1-15): "))
-            while play3 > 15 or play3 < 1:
-                play3 = int(input("Choose your third lucky number (1-15): "))
-            while play4 > 15 or play4 < 1:
-                play4 = int(input("Choose your fourth lucky number (1-15): "))
-        except:
-            pass
+    Label(frame,fg="white",bg=COLOR,font=("",12),text=f"Choose the lucky numbers (1-{max_num}) ").grid(row=2,column=0)
+    entry2a = Entry(frame, font=("",12),width=3)
+    entry2a.grid(row=2,column=1,padx=2)
+    entry2b = Entry(frame, font=("",12),width=3)
+    entry2b.grid(row=2,column=2,padx=1)
+    entry2c = Entry(frame, font=("",12),width=3)
+    entry2c.grid(row=2,column=3,padx=1)
+    entry2d = Entry(frame, font=("",12),width=3)
+    entry2d.grid(row=2,column=4,padx=2)
 
-        player = [play1,play2,play3,play4]
-        player.sort()
+    error2 = Label(frame,fg="white",bg=COLOR,font=("",1))
+    error2.grid(row=3,columnspan=5)
 
-        com1 = random.randint(1,15)
-        com2 = random.randint(1,15)
-        com3 = random.randint(1,15)
-        com4 = random.randint(1,15)
+    entry1.bind('<Return>', lambda event: entry2a.focus())
+    entry2a.bind('<Return>', lambda event: entry2b.focus())
+    entry2b.bind('<Return>', lambda event: entry2c.focus())
+    entry2c.bind('<Return>', lambda event: entry2d.focus())
 
-        computer = [com1,com2,com3,com4]
-        computer.sort()
-
-        B2history = ["You selected "+str(player)+", computer played "+str(computer)]
-
-        if player == computer:
-            winnings = wager * 60
-            B2_winmoney += winnings
-            t_winmoney += winnings
-            money = "{:,.2f}".format(winnings)
-            t_money = "{:,.2f}".format(t_winmoney)
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("YOU WON!!! You earned $"+str(money))
-            if money != t_money:
-                print("Your total pay-out is $"+str(t_money))
-            B2_wins +=1
-            t_wins +=1
-            if (t_wager/t_winmoney) > 0.02:
-                T_H_A_W()
-        else:
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("You will be luckier next time!")
-            B2_losses +=1
-            t_losses +=1
-
-        B2_history.append(B2history)
-        B2_history.append("You waged $"+str(wager))
-
-    if TheHouseAlwaysWins:
-        pass
-    else:
-        while restart not in options:
-            try:
-                print("Would you like to play again?")
-                restart = input("Yes or No: ").lower()
-            except:
-                pass
-
-        if restart == "no":
-            print("But you are so close to winning the *Jackpot* :(")
-
-            while confirm not in options:
-                try:
-                    confirm = input("Are you sure?(Yes or No): ").lower()
-                except:
-                    pass
-
-                if confirm == "yes":
-                    main()
-                else: 
-                    print("Lets get back to winning!")
-                    time.sleep(0.5)
-                    print("")
-                    print("=======================")
-                    print("")
-                    restart = "yes"
-                    fourplay_r()
-        else:
-            print("")
-            print("=======================")
-            print("")
-            fourplay_r()
+    Separator(frame, orient="horizontal", takefocus=True).grid(sticky="we",row=4,columnspan=5,pady=5)
+    bframe = Frame(root, bg=COLOR)
+    bframe.pack()
+    play = Button(bframe,font=("",12),text="Play", command=lambda: playnums(x,max_num,play,entry1,min_wager,error1,error2,entry2a,entry2b,entry2c,entry2d))
+    play.grid(row=0,column=0,padx=5,pady=5)
+    Button(bframe,font=("",12),text="Back",command=lambda: comselect()).grid(row=0,column=1,padx=5,pady=5)
 
 def ldlotto():
-    choice = ""
-    restart = ""
-    confirm = ""
-
-    while choice not in options:
-        try:
-            print("Would you like to play?")
-            choice = input("Yes or No: ").lower()
-        except:
-            pass
+    min_wager = 20
+    max_num = 20
+    x = 5
     
-    if choice == "no":
-        gamesA()
-    else:
-        B3_plays +=1
-        t_plays +=1
-        wager = 20
-        B3_wager += wager
-        t_wager += wager
-        play1 = 0
-        play2 = 0
-        play3 = 0
-        play4 = 0
-        play5 = 0
+    root.geometry("600x460")
+    for widget in root.winfo_children():
+        widget.destroy()
+    
+    Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
+    Label(root, bg=COLOR, fg="yellow", font=("",24),text=GAMES[x]).pack()
+    Separator(root, orient="horizontal", takefocus=True).pack(fill=X, pady=5)
+    frame=Frame(root,bg=COLOR)
+    frame.pack()
 
-        try:
-            while play1 > 20 or play1 < 1:
-                play1 = int(input("Choose your first lucky number (1-20): "))
-        except:
-            pass
-        try:
-            while play2 > 20 or play2 < 1:
-                play2 = int(input("Choose your second lucky number (1-20): "))
-        except:
-            pass
-        try:
-            while play3 > 20 or play3 < 1:
-                play3 = int(input("Choose your third lucky number (1-20): "))
-        except:
-            pass
-        try:
-            while play4 > 20 or play4 < 1:
-                play4 = int(input("Choose your fourth lucky number (1-20): "))
-        except:
-            pass
-        try:
-            while play5 > 20 or play5 < 1:
-                play5 = int(input("Choose your fifth lucky number (1-20): "))
-        except:
-            pass
+    Label(frame,fg="white",bg=COLOR,font=("",12),text="The wager is fixed at $").grid(row=0,column=0,sticky="e")
+    entry1 = Entry(frame, font=("",12),width=10)
+    entry1.grid(row=0,column=1,columnspan=5,padx=5,sticky="we")
+    entry1.insert(0, str(min_wager))
+    entry1.config(state="readonly",readonlybackground=COLOR)
+    error1 = Label(frame,fg="white",bg=COLOR,font=("",1))
+    error1.grid(row=1,columnspan=6)
 
-        player = [play1,play2,play3,play4,play5]
-        player.sort()
+    Label(frame,fg="white",bg=COLOR,font=("",12),text=f"Choose the lucky numbers (1-{max_num}) ").grid(row=2,column=0)
+    entry2a = Entry(frame, font=("",12),width=3)
+    entry2a.grid(row=2,column=1,padx=1)
+    entry2b = Entry(frame, font=("",12),width=3)
+    entry2b.grid(row=2,column=2,padx=1)
+    entry2c = Entry(frame, font=("",12),width=3)
+    entry2c.grid(row=2,column=3,padx=1)
+    entry2d = Entry(frame, font=("",12),width=3)
+    entry2d.grid(row=2,column=4,padx=1)
+    entry2e = Entry(frame, font=("",12),width=3)
+    entry2e.grid(row=2,column=5,padx=1)
 
-        com1 = random.randint(1,20)
-        com2 = random.randint(1,20)
-        com3 = random.randint(1,20)
-        com4 = random.randint(1,20)
-        com5 = random.randint(1,20)
+    entry2a.focus()
 
-        computer = [com1,com2,com3,com4,com5]
-        computer.sort()
+    error2 = Label(frame,fg="white",bg=COLOR,font=("",1))
+    error2.grid(row=3,columnspan=6)
 
-        B3history = ["You selected "+str(player)+", computer played "+str(computer)]
+    entry1.bind('<Return>', lambda event: entry2a.focus())
+    entry2a.bind('<Return>', lambda event: entry2b.focus())
+    entry2b.bind('<Return>', lambda event: entry2c.focus())
+    entry2c.bind('<Return>', lambda event: entry2d.focus())
+    entry2d.bind('<Return>', lambda event: entry2e.focus())
 
-        if player == computer:
-            winnings = 100000
-            B3_winmoney += winnings
-            t_winmoney += winnings
-            money = "{:,.2f}".format(winnings)
-            t_money = "{:,.2f}".format(t_winmoney)
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("YOU WON!!! You earned $"+str(money))
-            if money != t_money:
-                print("Your total pay-out is $"+str(t_money))
-            B3_wins +=1
-            t_wins +=1
-            if (t_wager/t_winmoney) > 0.02:
-                T_H_A_W()
-        else:
-            print("You chose ",str(player)+", computer got "+str(computer))
-            print("You will be luckier next time!")
-            B3_losses +=1
-            t_losses +=1
-        
-        B3_history.append(B3history)
-        B3_history.append("You waged $"+str(wager))
-
-    if TheHouseAlwaysWins:
-        pass
-    else:
-        while restart not in options:
-            try:
-                print("Would you like to play again?")
-                restart = input("Yes or No: ").lower()
-            except:
-                pass
-
-        if restart == "no":
-            print("But you are so close to winning the *Jackpot* :(")
-
-            while confirm not in options:
-                try:
-                    confirm = input("Are you sure?(Yes or No): ").lower()
-                except:
-                    pass
-
-                if confirm == "yes":
-                    main()
-                else: 
-                    print("Lets get back to winning!")
-                    time.sleep(0.5)
-                    print("")
-                    print("=======================")
-                    print("")
-                    restart = "yes"
-                    ldlotto_r()
-        else:
-            print("")
-            print("=======================")
-            print("")
-            ldlotto_r()
+    Separator(frame, orient="horizontal", takefocus=True).grid(sticky="we",row=4,columnspan=6,pady=5)
+    bframe = Frame(root, bg=COLOR)
+    bframe.pack()
+    play = Button(bframe,font=("",12),text="Play", command=lambda: playnums(x,max_num,play,entry1,min_wager,error1,error2,entry2a,entry2b,entry2c,entry2d))
+    play.grid(row=0,column=0,padx=5,pady=5)
+    Button(bframe,font=("",12),text="Back",command=lambda: comselect()).grid(row=0,column=1,padx=5,pady=5)
 
 def history():
     data = loading()
@@ -817,13 +475,13 @@ def playstats():
     Separator(frameA, orient=HORIZONTAL, takefocus=True).pack(fill=X)
     for x in range(0,3):
         Label(frameA,bg=COLOR,fg="white",font=("",12),
-        text=f"You played \"{games[x]}\" {str(data[2][x])} times\nWon {str(data[3][x])} and lost {str(data[4][x])}").pack()
+        text=f"You played \"{GAMES[x]}\" {str(data[2][x])} times\nWon {str(data[3][x])} and lost {str(data[4][x])}").pack()
 
     Label(frameB, bg=COLOR, fg="white", font=("",16),text=" Izizzi Games ").pack()
     Separator(frameB, orient=HORIZONTAL, takefocus=True).pack(fill=X)
     for x in range(3,6):
         Label(frameB,bg=COLOR,fg="white",font=("",12),
-        text=f"You played \"{games[x]}\" {str(data[2][x])} times\nWon {str(data[3][x])} and lost {str(data[4][x])}").pack()
+        text=f"You played \"{GAMES[x]}\" {str(data[2][x])} times\nWon {str(data[3][x])} and lost {str(data[4][x])}").pack()
 
     Label(frame, bg=COLOR, fg="white", font=("",16),text=" GAME HISTORY ").grid(row=1,columnspan=2,pady=(20,0))
     Separator(frame, orient=HORIZONTAL, takefocus=True).grid(row=2,columnspan=2,sticky="we")
@@ -833,7 +491,7 @@ def playstats():
     frame2.grid(row=3,column=1)
 
     for i in range(0,3):
-        Label(frame1, bg=COLOR, fg="white", font=("",12), text=games[i]).pack()
+        Label(frame1, bg=COLOR, fg="white", font=("",12), text=GAMES[i]).pack()
         Separator(frame1, orient=HORIZONTAL, takefocus=True).pack(fill=X)
 
         if len(data[7][i]) == 0:
@@ -843,7 +501,7 @@ def playstats():
                 Label(frame1,bg=COLOR,fg="white",text=data[7][i][j]).pack()
 
     for i in range(3,6):
-        Label(frame2, bg=COLOR, fg="white", font=("",12), text=games[i]).pack()
+        Label(frame2, bg=COLOR, fg="white", font=("",12), text=GAMES[i]).pack()
         Separator(frame2, orient=HORIZONTAL, takefocus=True).pack(fill=X)
 
         if len(data[7][i]) == 0:
@@ -863,35 +521,46 @@ def quit():
     if messagebox.askyesno(title="Confirm Quit",message="Are you sure you want to quit?"):
         root.destroy()
 
-def playnum(x,max_num,entry1,entry2,min_wager,wager,player,error1,error2):
+def playnums(x,max_num,play,entry1,min_wager,error1,error2,*args):
     global t_money
+    player = []
+    computer = []
 
     try:
         wager = float(entry1.get())
     except Exception as er:
         error1.config(fg="yellow",font=("",12),text=str(er))
         return
-    try:
-        player = int(entry2.get())
-    except Exception as er:
-        error2.config(fg="yellow",font=("",12),text=str(er))
-        return
+
+    for entry in args:
+            try:
+                num = int(entry.get())
+                if num > max_num or num < 1:
+                    entry.config(highlightbackground="red",highlightthickness=1)
+                    error2.config(fg="yellow",font=("",12),text=f"Only numbers from 1-{max_num} are valid")
+                    return
+                player.append(num)
+                computer.append(random.randint(1,max_num))
+            except Exception as er:
+                entry.config(highlightbackground="red",highlightthickness=1)
+                error2.config(fg="yellow",font=("",12),text=str(er))
+                return
 
     if wager < min_wager:
         error1.config(fg="yellow",font=("",12),text=f"The minimum wager is ${min_wager}.00")
-    elif player > 36 or player < 1:
-        error2.config(fg="yellow",font=("",12),text=f"Only numbers from 1-{max_num} are valid")
     else:
+        play.config(state=DISABLED)
         data = loading()
         data[2][x] +=1      # total game plays
         data[8] +=1         # total plays
         data[6][x] += wager # total wager for the game
         data[12] += wager   # total wager
-        computer = random.randint(1,max_num)
         result = f"You selected {str(player)}, computer played {str(computer)}"
         resultlbl = Label(root,bg=COLOR,fg="white",font=("",20),text=result)
         resultlbl.pack(pady=(12,0))
 
+        player.sort()
+        computer.sort()
         # [savetime,name,plays,wins,losses,winnings,wagers,histories,t_plays,t_wins,t_losses,t_winnings,t_wager]
         if player == computer:
             winmoney = wager * 26
@@ -911,7 +580,7 @@ def playnum(x,max_num,entry1,entry2,min_wager,wager,player,error1,error2):
 
         data[7][x].append(result)
         data[7][x].append("You waged $"+str(wager))
-        Button(root, font=("",12),text="Retry",command= lambda x:GAMESF[x])
+        Button(root, font=("",12),text="Retry",command = GAMES_F[x]).pack()
 
         saving(data)
         T_H_A_W()
@@ -950,8 +619,8 @@ def T_H_A_W():
     else: thaw = False
     return thaw
 
-GAMESF = (cashpot,hotpick,pickthree,onedrop,fourplay,ldlotto)
-games = (" Cashpot "," Hot Pick "," Pick Three "," One Drop "," Four play ","Lucky Day Lotto")
+GAMES_F = (cashpot,hotpick,pickthree,onedrop,fourplay,ldlotto)
+GAMES = (" Cashpot "," Hot Pick "," Pick Three "," One Drop "," Four play ","Lucky Day Lotto")
 
 # START ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -995,6 +664,6 @@ if __name__=="__main__":
             command=lambda: entry.delete(0, END)).pack(side = "right", padx=3)
 
     root.after(1000, lambda: messagebox.showinfo("Game Information",
-        "This is a game made by me, DI.\nCurrently the only game available is\nSupreme Ventures' Cashpot.\n I do not own any rights to these \"game\" titles\nThis \"game\" was made purely for practice.\n\nEnjoy if you can!"))
+        "This is a game made by me, DI.\nI do not own any rights to these \"game\" titles\nThis \"game\" was made purely for practice.\n\nEnjoy if you can!"))
 
     root.mainloop()
