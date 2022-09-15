@@ -440,12 +440,12 @@ def history():
     Separator(root, orient=HORIZONTAL,takefocus=True).pack(fill=X,pady=5)
     bframe = Frame(frame, bg=COLOR)
     bframe.pack()
-    Button(bframe,text="back",command=lambda name: comselect()).grid(row=0,column=0,padx=10,pady=10)
+    Button(bframe,text="back",command=lambda: comselect()).grid(row=0,column=0,padx=10,pady=10)
     Button(bframe,text="more info",command=playstats).grid(row=0,column=1,padx=10,pady=10)
 
 def playstats():
     data = loading()
-    root.bind("<Escape>", lambda name: comselect())
+    root.bind("<Escape>", lambda: comselect())
     root.geometry("560x512")
 
     for widget in root.winfo_children():
@@ -515,7 +515,7 @@ def playstats():
     Label(frame, bg=COLOR, fg="white", font=("",12), text="and spent a total of $"+str(data[12])).grid(columnspan=2,row=6,column=0)
     Separator(frame, orient=HORIZONTAL, takefocus=True).grid(columnspan=2,row=7,column=0,sticky="we")
 
-    Button(frame, font=("",12), text="Back", command=lambda name: comselect()).grid(columnspan=2,row=8,pady=5)
+    Button(frame, font=("",12), text="Back", command=lambda: comselect()).grid(columnspan=2,row=8,pady=5)
 
 def quit():
     if messagebox.askyesno(title="Confirm Quit",message="Are you sure you want to quit?"):
@@ -555,7 +555,7 @@ def playnums(x,max_num,play,entry1,min_wager,error1,error2,*args):
         data[8] +=1         # total plays
         data[6][x] += wager # total wager for the game
         data[12] += wager   # total wager
-        result = f"You selected {str(player)}, computer played {str(computer)}"
+        result = f"You selected {str(player)},\nComputer played {str(computer)}"
         resultlbl = Label(root,bg=COLOR,fg="white",font=("",20),text=result)
         resultlbl.pack(pady=(12,0))
 
@@ -663,7 +663,7 @@ if __name__=="__main__":
     Button(frame1, text="Clear", font=("",12),
             command=lambda: entry.delete(0, END)).pack(side = "right", padx=3)
 
-    root.after(1000, lambda: messagebox.showinfo("Game Information",
+    root.after(500, lambda: messagebox.showinfo("Game Information",
         "This is a game made by me, DI.\nI do not own any rights to these \"game\" titles\nThis \"game\" was made purely for practice.\n\nEnjoy if you can!"))
 
     root.mainloop()
