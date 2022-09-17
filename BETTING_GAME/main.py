@@ -268,9 +268,9 @@ def playstats() -> None:
     Label(frame, bg=COLOR, fg="white", font=("",16),text=" GAME HISTORY ").grid(row=1,columnspan=2,pady=(20,0))
     Separator(frame, orient=HORIZONTAL, takefocus=True).grid(row=2,columnspan=2,sticky="we")
     frame1 = Frame(frame,bg=COLOR)
-    frame1.grid(row=3,column=0)
+    frame1.grid(row=3,column=0,sticky="n")
     frame2 = Frame(frame,bg=COLOR)
-    frame2.grid(row=3,column=1)
+    frame2.grid(row=3,column=1,sticky="n")
 
     for i in range(0,3):
         Label(frame1, bg=COLOR, fg="white", font=("",12), text=GAMES[i]).pack()
@@ -300,7 +300,9 @@ def playstats() -> None:
     Button(frame, font=("",12), text="Back", command=lambda: comselect()).grid(columnspan=2,row=8,pady=5)
 
 def quit() -> None:
-    if messagebox.askyesno(title="Confirm Quit",message="Are you sure you want to quit?"):
+    data = loading()
+    if messagebox.askyesno(title="Confirm Quit",
+        message=f"{data[1]}, your current total is ${t_money}\n\nAre you sure you want to quit?)"):
         root.destroy()
 
 def playnums(x: int,max_num: int,play: Button,entry1: Entry,min_wager: float,error1: Label,error2: Label,entry_list: list) -> None:
@@ -333,6 +335,7 @@ def playnums(x: int,max_num: int,play: Button,entry1: Entry,min_wager: float,err
                 if entry.get() == "":
                     entry.config(highlightthickness=3)
                     error2.config(fg="yellow",font=("",12),text="There is/are number(s) missing!")
+                    return
                 num = int(entry.get())
                 if num > max_num or num < 1:
                     entry.config(highlightthickness=3)
@@ -369,10 +372,12 @@ def playnums(x: int,max_num: int,play: Button,entry1: Entry,min_wager: float,err
             money = "{:,.2f}".format(winmoney)
             t_money = "{:,.2f}".format(data[11])
 
-            Label(root,bg=COLOR,fg="green",font=("",24),text="YOU WIN!!!")
-            Label(root,bg=COLOR,fg="green",font=("",24),text="You earned $"+money)
+            Label(root,bg=COLOR,fg="green",font=("",24),text="YOU WIN!!!").pack()
+            Label(root,bg=COLOR,fg="green",font=("",14),text="You earned $"+money).pack()
             data[3][x] +=1
             data[9] +=1
+
+            T_H_A_W()
         else:
             Label(root,bg=COLOR,fg="white",font=("",14),text="You will be luckier next time").pack()
             data[4][x] +=1
@@ -383,7 +388,6 @@ def playnums(x: int,max_num: int,play: Button,entry1: Entry,min_wager: float,err
         Button(root, font=("",12),text="Retry",command = lambda: game_window(*GAME_CONFIGS[x])).pack()
 
         saving(data)
-        T_H_A_W()
 
 def calc_winnings(x: int,wager: float) -> float:
     if x == 0:
@@ -417,7 +421,7 @@ def T_H_A_W() -> bool:
 
         for widget in root.winfo_children():
             widget.destroy()
-        root.geometry("640x420")
+        root.geometry("640x440")
         Separator(root,orient=HORIZONTAL).pack(fill=X)
         Label(root,bg=COLOR,fg="red",font=("",18),text="!!!DO NOT LEAVE YOUR CURRENT LOCATION!!!").pack(pady=10)
         Separator(root,orient=HORIZONTAL).pack(fill=X)
