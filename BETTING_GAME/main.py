@@ -33,9 +33,14 @@ def saving(data) -> None:
     # [savetime,name,plays,wins,losses,winnings,wagers,histories,t_plays,t_wins,t_losses,t_winnings,t_wager]
 
     try:
-        with open(location, 'wb') as file:
+        with open("file.bin", 'wb') as file:
             pickle.dump(data, file)
+    except FileNotFoundError:
+        f = open("file.bin", "x")
+        f.close()
+        saving(data)
     except Exception as er:
+        print("Failed func 'saving'")
         print(er)
 
 def submit(*args) -> None: 
@@ -459,10 +464,13 @@ if __name__=="__main__":
     root.title("Betting Game")
     root.config(background = COLOR)
 
-    title = Label(root, text="||| JACKPOT |||", 
-            bg=COLOR, fg="yellow",
-            pady=10, font = ("",18),
-            border=5, relief=SUNKEN)
+    title_border = Frame(root, bg=COLOR,highlightbackground="white",highlightthickness=2,
+                    padx=5, pady=5)
+    title_border.pack()
+
+    title = Label(title_border, text="JACKPOT", bg=COLOR,
+            fg="yellow",padx=10, pady=10, font = ("",18),
+            highlightbackground="white",highlightthickness=2)
     title.pack()
     Label(root, text="Welcome to Jackpot!!!", 
             bg=COLOR, fg="white",
